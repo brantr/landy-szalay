@@ -23,6 +23,8 @@ int main(int argc, char **argv)
   double rr;
   double rr_min = 1.0e-8;
 
+  int isnap = 753;
+
   int imin = 0; // do we include autocorrelation of object w/ itself?
   int iminlim = 0;
   char fname[200];
@@ -68,11 +70,15 @@ int main(int argc, char **argv)
   std::uniform_real_distribution<double> dis(-1.0,2.0);
   std::uniform_real_distribution<double> disb(0.0,1.0);
 
+  if(argc>1)
+  {
+    isnap = atoi(argv[1]);
+  }
 
 
   //print shock list filename
-  sprintf(fname_list,"data/peak.blended.0753.list");
-  sprintf(fname_data,"data/peak.blended.0753.dat");
+  sprintf(fname_list,"data/peak.blended.%04d.list",isnap);
+  sprintf(fname_data,"data/peak.blended.%04d.dat",isnap);
 
   //read in shock list
   printf("Reading shock list %s.\n",fname_list);
@@ -303,7 +309,7 @@ int main(int argc, char **argv)
     printf("i %d r %e DD %e DR %e RR %e RC %e CC %e\n",i,r[i],DD[i],DR[i],RR[i],CR[i],CC[i]);
 
   //save data
-  sprintf(fname,"correlation.txt");
+  sprintf(fname,"correlation.%04d.txt",isnap);
   FILE *fp;
   fp = fopen(fname,"w");
   for(int i=0;i<nr;i++)
